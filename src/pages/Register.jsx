@@ -1,5 +1,4 @@
 import React from 'react'
-import './Register.css'
 import Add from '../assets/addImg.svg'
 
 export const Register = () => {
