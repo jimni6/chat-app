@@ -5,9 +5,12 @@ import { auth, storage, db } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { useNavigate, Link } from 'react-router-dom';
 
 export const Register = () => {
     const [err, setErr] = useState(false);
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const displayName = e.target[0].value;
@@ -31,6 +34,8 @@ export const Register = () => {
                             email,
                             photoUrl: downloadURL,
                         });
+                        await setDoc(doc(db, "userChats", res.user.uid), {});
+                        navigate("/");
                     } catch (err) {
                         setErr(true);
                     }
@@ -57,7 +62,7 @@ export const Register = () => {
                     <button className='formButton'>C'est parti!</button>
                     {err && <span> Quelque chose n'a pas fonctionné</span>}
                 </form>
-                <p>Vous avez déjà un compte? S'identifier</p>
+                <p>Vous avez déjà un compte? <Link to="/login">S'identifier</Link></p>
             </div>
         </div>
     )
